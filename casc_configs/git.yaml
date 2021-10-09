@@ -1,0 +1,24 @@
+tool:
+  git:
+    installations:
+      - name: Default
+        home: "git"
+
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - basicSSHUserPrivateKey:
+          scope:    GLOBAL
+          id:       jenkins_git
+          username: jenkins_git
+          description: github jenkins ssh credentials 
+          privateKeySource:
+            directEntry:
+              privateKey: ${jenkins_git}
+          passphrase: ${jenkins_git_pass}
+
+unclassified:
+  gitHubConfiguration:
+    apiRateLimitChecker: ThrottleForNormalize
+    

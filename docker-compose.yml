@@ -1,0 +1,47 @@
+version: '3.3'
+services:
+  jenkins:
+    container_name: jcasc
+    image: jcasc
+    build:
+      context: ./master
+    ports:
+      - "8082:8080"
+    volumes:
+      - "./entrypoint.sh:/entrypoint.sh"
+      - "$PWD/jenkins_home:/var/jenkins_home"
+      - "./casc_configs:/var/jenkins_conf"
+      - "$HOME/.m2:/var/jenkins_home/.m2"
+    secrets:
+      - adminpw
+      - git_auth
+      - slack_auth
+      - jenkins_git  
+      - jenkins_git_pass
+      - sonar_token
+      - nexus_password
+    networks:
+      - net
+    environment:
+      - CASC_JENKINS_CONFIG=/var/jenkins_conf
+      - JENKINS_HOME=/var/jenkins_home
+      - JAVA_OPTS="-Djenkins.install.runSetupWizard=false ${JAVA_OPTS:-}"
+networks:
+  net:
+
+secrets: 
+  adminpw:
+    file: ./secrets/adminpw
+  git_auth:
+    file: ./secrets/git_auth
+  slack_auth:
+    file: ./secrets/slack_auth
+  jenkins_git:
+    file: ./secrets/jenkins_git
+  jenkins_git_pass:
+    file: ./secrets/jenkins_git_pass
+  sonar_token:
+    file: ./secrets/sonar_token
+  nexus_password:
+    file: ./secrets/nexus_password
+

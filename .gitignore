@@ -1,0 +1,7 @@
+jenkins_home/
+secrets/
+secrets/adminpw
+secrets/git_auth
+secrets/git_pull_request_builder1
+secrets/jenkins_git
+secrets/jenkins_git_pass

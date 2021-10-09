@@ -1,0 +1,30 @@
+jobs:
+  - script: |
+          job('Test') {
+            scm {
+              git {
+                remote {
+                  url('https://github.com/devopshydclub/vprofile-project')
+                  credentials('jenkins_git')
+                }
+                branches('*/ci-jenkins')
+              }
+            }
+            steps {
+              maven {
+                goals('test -DSNAP-REPO=vprofle-snapshot -DNEXUS-USER=admin -DNEXUS-PASS=admin -DRELEASE-REPO=vprofile-release -DCENTRAL-REPO=vpro-maven-central -DNEXUS-GRP-REPO=vpro-maven-group -DNEXUSIP=nexus -DNEXUSPORT=8081 -s settings.xml')
+              }
+            }
+            publishers {
+              slackNotifier {
+                startNotification(true)
+                notifySuccess(true)
+                notifyUnstable(true)
+                notifyEveryFailure(true)
+                teamDomain('AWS_practice')
+                room('#jenkins')
+                tokenCredentialId('slack_token')
+              }
+              downstream('Integration Test', 'UNSTABLE')
+            }
+          }

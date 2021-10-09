@@ -1,0 +1,27 @@
+tool:
+  sonarRunnerInstallation:
+    installations:
+    - name: SONAR-4.6.2
+      properties:
+      - installSource:
+          installers:
+          - sonarRunnerInstaller:
+              id: "4.6.2.2472"
+
+unclassified:
+  sonarGlobalConfiguration:
+    buildWrapperEnabled: true
+    installations:
+    - name: sonar-vprofile
+      serverUrl: http://sonarqube.local:9000
+      credentialsId: sonar_token
+
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - string:
+          scope: GLOBAL
+          id: sonar_token
+          secret: ${sonar_token}
+    

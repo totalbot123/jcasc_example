@@ -1,0 +1,35 @@
+jobs:
+  - script: |
+          job('SonarScanner-CodeAnalysis') {
+            scm {
+              git {
+                remote {
+                  url('https://github.com/devopshydclub/vprofile-project')
+                  credentials('jenkins_git')
+                }
+                branches('*/ci-jenkins')
+              }
+            }
+            steps {
+              maven {
+                goals('clean install -DSNAP-REPO=vprofle-snapshot -DNEXUS-USER=admin -DNEXUS-PASS=admin123 -DRELEASE-REPO=vprofile-release -DCENTRAL-REPO=vpro-maven-central -DNEXUS-GRP-REPO=vpro-maven-group -DNEXUSIP=nexus -DNEXUSPORT=8081 -s settings.xml')
+              }
+              maven {
+                goals('checkstyle:checkstyle -DSNAP-REPO=vprofle-snapshot -DNEXUS-USER=admin -DNEXUS-PASS=admin123 -DRELEASE-REPO=vprofile-release -DCENTRAL-REPO=vpro-maven-central -DNEXUS-GRP-REPO=vpro-maven-group -DNEXUSIP=nexus -DNEXUSPORT=8081 -s settings.xml')
+              }
+              sonarRunnerBuilder {
+                properties('sonar.projectKey=vprofile\nsonar.projectName=vprofile-repo\nsonar.projectVersion=1.0\nsonar.sources=src/\nsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/\nsonar.junit.reportsPath=target/surefire-reports/\nsonar.jacoco.reportsPath=target/jacoco.exec\nsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml')
+              }
+            }
+            publishers {
+              slackNotifier {
+                startNotification(true)
+                notifySuccess(true)
+                notifyUnstable(true)
+                notifyEveryFailure(true)
+                teamDomain('AWS_practice')
+                room('#jenkins')
+                tokenCredentialId('slack_token')
+              }
+            }
+          }

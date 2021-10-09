@@ -1,0 +1,11 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - usernamePassword:
+          scope: GLOBAL
+          id: nexusLogin
+          description: nexusLogin
+          username: admin
+          password: ${nexus_password}
+    

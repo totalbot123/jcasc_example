@@ -1,0 +1,26 @@
+jenkins:
+  systemMessage: "\nConfigured with JCasC!\n"
+
+  numExecutors: 2
+  mode: NORMAL
+  quietPeriod: 5
+  scmCheckoutRetryCount: 0
+
+  noUsageStatistics: true
+
+unclassified:
+  location:
+    url: http://localhost:8080/
+    adminAddress: address not configured yet <nobody@nowhere>
+
+  globalDefaultFlowDurabilityLevel:
+    durabilityHint: PERFORMANCE_OPTIMIZED
+
+  defaultFolderConfiguration:
+    healthMetrics:
+    - worstChildHealthMetric:
+        recursive: true
+
+  buildDiscarders:
+    configuredBuildDiscarders:
+    - "jobBuildDiscarder"

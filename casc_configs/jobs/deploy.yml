@@ -1,0 +1,41 @@
+jobs:
+  - script: |
+          job('Deploy to Nexus') {
+            properties {
+              zenTimestamp('yyyy-MM-dd_HH-mm-ss')
+            }
+            steps {
+              copyArtifacts('Build') {
+                includePatterns('**/*.war')
+                optional(false)
+                buildSelector {
+                  latestSuccessful(false)
+                }
+              }
+              nexusArtifactUploader {
+                nexusVersion('nexus3')
+                protocol('http')
+                nexusUrl('nexus.local:8081')
+                groupId('QA')
+                version('V$BUILD_ID')
+                repository('vprofile-release')
+                credentialsId('nexusLogin')
+                artifact {
+                    artifactId('$BUILD_TIMESTAMP')
+                    type('war')
+                    file('target/vprofile-v2.war')
+                }
+              }
+            }
+            publishers {
+              slackNotifier {
+                startNotification(true)
+                notifySuccess(true)
+                notifyUnstable(true)
+                notifyEveryFailure(true)
+                teamDomain('AWS_practice')
+                room('#jenkins')
+                tokenCredentialId('slack_token')
+              }
+            }
+          }

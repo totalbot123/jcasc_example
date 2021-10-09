@@ -1,0 +1,14 @@
+unclassified:
+  slackNotifier:
+    botUser: true
+
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - string:
+          scope: GLOBAL
+          id: slack_token
+          description: slack jenkins token
+          secret: ${slack_auth}
+    
