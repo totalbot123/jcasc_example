@@ -14,7 +14,6 @@ services:
       - "$HOME/.m2:/var/jenkins_home/.m2"
     secrets:
       - adminpw
-      - git_auth
       - slack_auth
       - jenkins_git  
       - jenkins_git_pass
@@ -32,8 +31,6 @@ networks:
 secrets: 
   adminpw:
     file: ./secrets/adminpw
-  git_auth:
-    file: ./secrets/git_auth
   slack_auth:
     file: ./secrets/slack_auth
   jenkins_git:
